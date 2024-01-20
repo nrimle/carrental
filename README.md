@@ -19,3 +19,5 @@ The app is structured in four main packages, with some additional helper package
 - Repository - crud interface to the persistent storage
 - Service - business logic implementations
 - Controller - provides a REST interface for the business logic
+- Config - General runtime configuration
+- Enums - Static set of values

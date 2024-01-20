@@ -1,0 +1,242 @@
+swagger: "2.0"
+info:
+  title: Carrental
+  version: '1.0.0'
+  description: |
+    This is the carrental API.
+paths:
+  /api/v1/car:
+    get:
+      summary: Get all cars
+      description: Gets a list of all cars
+      responses:
+        200:
+          description: Successful response
+          examples:
+            content:
+            application/json:
+              - id: 1
+                name: Fiat Punto
+                type: SPORTS_CAR
+                transmission: AUTOMATIC
+                costPerDay: 50.95
+                seats: 4
+                image: /image/1
+                rentals: []
+
+        500:
+          description: Internal server error
+    post:
+      summary: Create a new car
+      description: Creates a new car with the provided information
+      parameters:
+        - name: car
+          in: body
+          description: Car object
+          required: true
+          schema:
+            $ref: "#/definitions/Car"
+      responses:
+        201:
+          description: Successful response
+          examples:
+            content:
+            application/json:
+              id: 1
+              name: Fiat Punto
+              type: SPORTS_CAR
+              transmission: AUTOMATIC
+              costPerDay: 50.95
+              seats: 4
+              image: /image/1
+              rentals: []
+        400:
+          description: Invalid request
+        500:
+          description: Internal server error
+  /api/v1/car/{id}:
+    delete:
+      summary: Delete car by ID
+      description: Deletes a car based on the provided ID
+      parameters:
+        - name: id
+          in: path
+          description: Car ID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Successful response
+        404:
+          description: Not found
+        500:
+          description: Internal server error
+  /api/v1/image/{id}:
+    get:
+      summary: Get image by ID
+      description: Gets an image based on the provided ID
+      parameters:
+        - name: id
+          in: path
+          description: Image ID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+        404:
+          description: Not found
+        500:
+          description: Internal server error
+  /api/v1/image:
+    post:
+      summary: Upload a new image
+      description: Uploads a new image to the database
+      parameters:
+        - name: image
+          in: body
+          description: image file
+          required: true
+          schema:
+            $ref: "#/definitions/Image"
+      responses:
+        201:
+          description: Successful response
+          examples:
+            text:
+              value: 0
+        400:
+          description: Invalid request
+        500:
+          description: Internal server error
+  /api/v1/rental:
+    get:
+      summary: Get all rentals
+      description: Gets a list of all rentals
+      responses:
+        200:
+          description: Successful response
+          examples:
+            content:
+            application/json:
+              - id: 1
+                startDate: 1705618800000
+                endDate: 1706050800000
+                customer:
+                  id: 1
+                  firstName: Hans
+                  lastName: Meier
+                  dateOfBirth: 781311600000
+                  billingAddress:
+                    id: 1
+                    street: Wassergasse
+                    houseNumber: 24A
+                    zipCode: 9500
+                    city: Wil
+                  licenceNumber: null
+                  verifiedLicence: false
+
+        500:
+          description: Internal server error
+    post:
+      summary: Create a new rental
+      description: Creates a new rental with the provided information
+      parameters:
+        - name: rental
+          in: body
+          description: Rental object
+          required: true
+          schema:
+            $ref: "#/definitions/Rental"
+      responses:
+        201:
+          description: Successful response
+          examples:
+            content:
+            application/json:
+              id: 1
+              startDate: 1705618800000
+              endDate: 1706050800000
+              customer:
+                id: 1
+                firstName: Hans
+                lastName: Meier
+                dateOfBirth: 781311600000
+                billingAddress:
+                  id: 1
+                  street: Wassergasse
+                  houseNumber: 24A
+                  zipCode: 9500
+                  city: Wil
+                licenceNumber: null
+                verifiedLicence: false
+        400:
+          description: Invalid request
+        500:
+          description: Internal server error
+definitions:
+  Car:
+    type: object
+    properties:
+      costPerDay:
+        type: integer
+      image:
+        type: string
+      name:
+        type: string
+      seats:
+        type: integer
+      transmission:
+        type: string
+        enum:
+          - manual
+          - automatic
+      type:
+        type: string
+        enum:
+          - SUV
+          - HATCHBACK
+          - CONVERTIBLE
+          - SEDAN
+          - SPORTS_CAR
+          - COUPE
+          - MINIVAN
+          - STATION_WAGON
+          - PICKUP_TRUCK
+  Image:
+    type: object
+    properties:
+      image:
+        type: string
+        format: binary
+  Rental:
+    type: object
+    properties:
+      carId:
+        type: integer
+      startDate:
+        type: string
+      endDate:
+        type: string
+      customer:
+        type: object
+        properties:
+          firstName:
+            type: string
+          lastName:
+            type: string
+          dateOfBirth:
+            type: string
+          billingAddress:
+            type: object
+            properties:
+              street:
+                type: string
+              houseNumber:
+                type: string
+              zipCode:
+                type: number
+              city:
+                type: string
