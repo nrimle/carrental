@@ -15,9 +15,15 @@ Besides the functionalities of Spring boot, this project also uses lombok to red
 ## Architecture
 
 The app is structured in four main packages, with some additional helper packages:
+
 - Model - structure of the business classes
 - Repository - crud interface to the persistent storage
 - Service - business logic implementations
 - Controller - provides a REST interface for the business logic
 - Config - General runtime configuration
 - Enums - Static set of values
+
+## Swagger documentation
+
+The swagger documentation is located in the "swagger" folder.
+It can either be opened as a html file in any browser, or the API spec can be viewed in yml format.
